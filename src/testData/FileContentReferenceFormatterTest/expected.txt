@@ -1,0 +1,10 @@
+<|filestart /src/files/file1.txt|>
+This is the content of file 1.
+
+<|fileend /src/files/file1.txt|>
+
+<|filestart /src/files/file2.txt|>
+This is the content of file 2.
+
+<|fileend /src/files/file2.txt|>
+

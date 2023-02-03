@@ -1,0 +1,10 @@
+{
+  "model": "code-davinci-002",
+  "stream": true,
+  "max_tokens": 256,
+  "stop": "\n\n",
+  "temperature": 0.2,
+  "logit_bias": {
+    "1003": -100
+  }
+}

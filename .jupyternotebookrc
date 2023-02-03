@@ -1,0 +1,22 @@
+from IPython import get_ipython
+from IPython.core.interactiveshell import InteractiveShell
+
+from app import env
+from taskmates.clients.jupyter_.file_editing_magic import append, match_content_block_to_replace, replace_matched_content_block
+
+get_ipython().run_line_magic('load_ext', 'autoreload')
+get_ipython().run_line_magic('autoreload', '2')
+
+# Register before_after with IPython
+get_ipython().register_magic_function(match_content_block_to_replace, 'cell')
+get_ipython().register_magic_function(replace_matched_content_block, 'cell')
+get_ipython().register_magic_function(append, 'cell')
+
+# %load_ext autoreload
+# %autoreload 2
+
+env.bootstrap()
+
+# store = Neo4jCollection(path=Path("/"))
+
+InteractiveShell.ast_node_interactivity = "last_expr_or_assign"

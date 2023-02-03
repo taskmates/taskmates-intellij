@@ -1,0 +1,63 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+  <id>me.taskmates.taskmates-intellij</id>
+  <name>Taskmates Coding Assistant</name>
+  <vendor url="https://github.com/taskmates/taskmates-intellij">Taskmates</vendor>
+
+  <depends>com.intellij.modules.platform</depends>
+
+  <actions>
+    <group
+      id="me.taskmates.intellij.actions.assistance"
+      text="Taskmates Completion"
+      popup="true">
+
+      <action id="me.taskmates.intellij.actions.assistance.FileChatAction"
+              class="me.taskmates.intellij.actions.assistance.FileChatAction"
+              text="Taskmates File Chat">
+        <keyboard-shortcut keymap="$default" first-keystroke="shift meta T"/>
+      </action>
+
+      <action
+        id="me.taskmates.intellij.actions.PerformCompletionAction:claude-3-haiku-20240307"
+        class="me.taskmates.intellij.actions.PerformCompletionAction"
+        text="Taskmates Perform Completion (claude-3-haiku-20240307)">
+        <keyboard-shortcut keymap="$default" first-keystroke="shift meta 1"/>
+      </action>
+
+      <action
+        id="me.taskmates.intellij.actions.PerformCompletionAction:llama3-70b-8192"
+        class="me.taskmates.intellij.actions.PerformCompletionAction"
+        text="Taskmates Perform Completion (llama3-70b-8192)">
+        <keyboard-shortcut keymap="$default" first-keystroke="shift meta 2"/>
+      </action>
+      <action id="me.taskmates.intellij.actions.PerformCompletionAction:gpt-4"
+              class="me.taskmates.intellij.actions.PerformCompletionAction"
+              text="Taskmates Perform Completion (gpt-4)">
+        <keyboard-shortcut keymap="$default" first-keystroke="shift meta 3"/>
+      </action>
+      <action
+        id="me.taskmates.intellij.actions.PerformCompletionAction:gpt-4-turbo"
+        class="me.taskmates.intellij.actions.PerformCompletionAction"
+        text="Taskmates Perform Completion (gpt-4-turbo)">
+        <keyboard-shortcut keymap="$default" first-keystroke="shift meta 4"/>
+      </action>
+      <action
+        id="me.taskmates.intellij.actions.PerformCompletionAction:gpt-4o"
+        class="me.taskmates.intellij.actions.PerformCompletionAction"
+        text="Taskmates Perform Completion (gpt-4o)">
+        <keyboard-shortcut keymap="$default" first-keystroke="shift meta 5"/>
+      </action>
+    </group>
+
+    <action id="me.taskmates.intellij.actions.session.NewChatAction"
+            class="me.taskmates.intellij.actions.session.NewChatAction"
+            text="Taskmates New Markdown Chat">
+    </action>
+
+    <action id="me.taskmates.intellij.actions.session.PruneChatsAction"
+            class="me.taskmates.intellij.actions.session.PruneChatsAction"
+            text="Taskmates Prune Chats">
+    </action>
+  </actions>
+</idea-plugin>

@@ -1,0 +1,16 @@
+.gradle
+.idea
+.qodana
+build
+data
+out
+classpath.index
+.taskmates
+
+.gitignore
+.dockerignore
+.git
+
+# it looks like intellij doesn't like these timestamps?
+/src/test/httpRequestRecordings
+/tmp

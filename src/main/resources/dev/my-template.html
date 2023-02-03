@@ -1,0 +1,4 @@
+{% import 'jinja2/utils' as utils %}
+{
+    "file": {{ utils.include_file('dev/my-snippet.html') | tojson }}
+}

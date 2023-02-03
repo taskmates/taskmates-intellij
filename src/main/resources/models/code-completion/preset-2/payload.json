@@ -1,0 +1,7 @@
+{
+  "model": "code-davinci-002",
+  "max_tokens": 256,
+  "temperature": 0.2,
+  "stop": "\n\n",
+  "best_of": 3
+}

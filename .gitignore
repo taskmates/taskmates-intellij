@@ -1,0 +1,19 @@
+# IntelliJ IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+out
+
+.gradle
+.qodana
+build
+data
+
+
+.taskmates
+/tmp
+
+# Live Plugins
+classpath.index
+
