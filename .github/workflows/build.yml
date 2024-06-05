@@ -37,7 +37,7 @@ jobs:
         image: ghcr.io/taskmates/taskmates:main
         credentials:
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.ghcr_password }}
+          password: ${{ secrets.TASKMATES_GITHUB_TOKEN }}
         ports:
           - 5000:5000
         options: >-
