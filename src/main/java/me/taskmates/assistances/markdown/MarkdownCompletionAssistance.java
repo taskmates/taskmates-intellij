@@ -76,7 +76,6 @@ public class MarkdownCompletionAssistance {
 
             Signals signals = new Signals();
             signals.on("error", (Object event) -> {
-                // TODO what if the editor is closed? handle this situation.
                 progressFeedback.handleCompletionException((Throwable) event, project, chatFile);
                 indicator.cancel();
             });
@@ -88,6 +87,7 @@ public class MarkdownCompletionAssistance {
                     markdownChat,
                     signals)
                 .exceptionally(throwable -> {
+                    // TODO, point 4
                     progressFeedback.handleCompletionException(throwable, project, chatFile);
                     indicator.cancel();
                     return null;

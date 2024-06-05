@@ -70,7 +70,6 @@ public class TaskmatesCompletionRequest {
             public void on(String event) {
                 LOG.info("Connection closed: " + event);
                 signals.send("close", null);
-                signals.send("request.complete", null);
 
                 try {
                     asyncHttpClient.close();
@@ -83,9 +82,6 @@ public class TaskmatesCompletionRequest {
         }).on(Event.ERROR, new Function<Throwable>() {
             @Override
             public void on(Throwable throwable) {
-                LOG.error("Error occurred: " + throwable.getMessage(), throwable);
-                signals.send("error", throwable);
-                signals.send("request.complete", null);
                 future.completeExceptionally(throwable);
             }
         });
@@ -99,7 +95,6 @@ public class TaskmatesCompletionRequest {
 
             socket.fire(JsonUtils.dump(payload));
         } catch (IOException e) {
-            LOG.error("Error occurred: " + e.getMessage(), e);
             throw new RuntimeException(e);
         }
 

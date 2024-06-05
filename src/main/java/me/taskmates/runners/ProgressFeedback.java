@@ -1,11 +1,12 @@
 package me.taskmates.runners;
 
-import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.CaretVisualAttributes;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import me.taskmates.io.completions.ChatCompletionEditorCompletion;
 import me.taskmates.lib.utils.ThreadUtils;
@@ -17,6 +18,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 
 public class ProgressFeedback {
+    private static final Logger LOG = Logger.getInstance(ProgressFeedback.class);
     private final Editor editor;
 
     public ProgressFeedback(Editor editor) {
@@ -58,11 +60,14 @@ public class ProgressFeedback {
         PrintWriter pw = new PrintWriter(sw);
         throwable.printStackTrace(pw);
         ChatCompletionEditorCompletion completion = new ChatCompletionEditorCompletion(project, chatFile);
-        completion.append("**Error:** " + throwable.getMessage() + "\n\n<pre style=\"display: none\">\n" + sw + "\n</pre>\n");
+        LOG.error(throwable);
+        String errorMessage = throwable.getMessage() + "\n\nCheck Logs for more details\n\n";
+        completion.append("**error:** " + errorMessage);
 
+        // completion.append("**error:** " + throwable.getMessage() + "\n\n<pre style=\"display: none\">\n" + sw + "\n</pre>\n");
         // ApplicationManager.getApplication().invokeLater(() -> {
-        //     HintManager.getInstance().showErrorHint(editor, throwable.getClass().getName() + "\n" + throwable.getMessage());
+        //     Messages.showErrorDialog("Error", errorMessage);
+        //     //     HintManager.getInstance().showErrorHint(editor, throwable.getClass().getName() + "\n" + throwable.getMessage());
         // });
-        // LOG.error(throwable);
     }
 }
