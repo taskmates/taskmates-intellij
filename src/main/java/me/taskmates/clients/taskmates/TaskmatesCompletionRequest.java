@@ -18,15 +18,12 @@ public class TaskmatesCompletionRequest {
     protected final String wsUrl;
     protected final Map<String, Object> payload;
     protected final Signals signals;
-    private final String requestId;
     protected Socket socket;
 
     public TaskmatesCompletionRequest(Map<String, Object> payload, Signals signals) {
         this.wsUrl = "ws://localhost:5000" + Endpoint.TASKMATES_COMPLETIONS.getPath();
         this.payload = payload;
         this.signals = signals;
-
-        this.requestId = String.format("%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS-%1$tL", System.currentTimeMillis());
     }
 
     public CompletableFuture<Void> performRequest() {
@@ -90,9 +87,6 @@ public class TaskmatesCompletionRequest {
             LOG.info("Opening socket");
             socket.open(request.build(), 500, TimeUnit.MILLISECONDS);
             LOG.info("Firing socket");
-
-            ((Map<String, Object>) payload.get("context")).put("request_id", requestId);
-
             socket.fire(JsonUtils.dump(payload));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -105,9 +99,7 @@ public class TaskmatesCompletionRequest {
         try {
             socket.fire(JsonUtils.dump(Map.of(
                 "type", "interrupt",
-                "context", Map.of(
-                    "request_id", requestId
-                )
+                "context", Map.of()
             )));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -119,9 +111,7 @@ public class TaskmatesCompletionRequest {
         try {
             socket.fire(JsonUtils.dump(Map.of(
                 "type", "kill",
-                "context", Map.of(
-                    "request_id", requestId
-                )
+                "context", Map.of()
             )));
         } catch (IOException e) {
             throw new RuntimeException(e);

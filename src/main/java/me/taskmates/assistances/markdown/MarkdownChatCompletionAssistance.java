@@ -12,6 +12,7 @@ import me.taskmates.lib.utils.JsonUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class MarkdownChatCompletionAssistance {
@@ -32,6 +33,25 @@ public class MarkdownChatCompletionAssistance {
         }
     }
 
+    // Example payload:
+    /*
+        {
+          "context": {
+            "cwd": "/private/var/demos/taskmates-demo",
+            "container_name": "shell",
+            "service_name": "shell",
+            "chat_dir": "/projects/taskmates/taskmates-intellij/build/idea-sandbox/config/scratches",
+            "project_dir": "/private/var/demos/taskmates-demo",
+            "host": "localhost",
+            "chat_file": "/projects/taskmates/taskmates-intellij/build/idea-sandbox/config/scratches/scratch_1.md",
+            "model": "claude-3-haiku-20240307",
+            "transclusions_base_dir": "/projects/taskmates/taskmates-intellij/build/idea-sandbox/config/scratches",
+            "markdown_path": "/projects/taskmates/taskmates-intellij/build/idea-sandbox/config/scratches/scratch_1.md"
+          },
+          "markdown_chat": "Hey @shell what's the current date?\n"
+        }
+     */
+
 
     public CompletableFuture<Void> performCompletion(Injector injector,
                                                      Map<String, Object> context,
@@ -43,15 +63,35 @@ public class MarkdownChatCompletionAssistance {
         signals.on("completion", editorCompletion::processCompletionChunk)
             .on("kill", (Object unused) -> this.currentRequest.kill());
 
-        String jsonDump = JsonUtils.dump(
-            Map.of(
-                "markdown_chat", markdownChat,
-                "context", context
-            )
+        // Extract fields from context
+        String cwd = (String) context.get("cwd");
+        String markdownPath = (String) context.get("markdown_path");
+        String model = (String) context.get("model");
+
+        // Create CompletionContext
+        Map<String, Object> completionContext = Map.of(
+            "request_id", UUID.randomUUID().toString(),
+            "cwd", cwd,
+            "markdown_path", markdownPath
         );
-        Map<String, Object> payload = JsonUtils.parseJson(jsonDump);
+
+        // Create CompletionOpts with defaults
+        Map<String, Object> completionOpts = Map.of(
+            "model", model
+        );
+
+        // Create CompletionPayload
+        Map<String, Object> payload = Map.of(
+            "type", "markdown_chat_completion",
+            "markdown_chat", markdownChat,
+            "completion_context", completionContext,
+            "completion_opts", completionOpts
+        );
+
+        String jsonPayload = JsonUtils.dump(payload);
+
         currentRequest = new TaskmatesCompletionRequest(
-            payload,
+            JsonUtils.parseJson(jsonPayload),
             signals);
         return currentRequest.performRequest();
     }
