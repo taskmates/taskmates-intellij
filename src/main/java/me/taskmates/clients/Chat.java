@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class Chat {
     private final List<ChatMessage> messages = new ArrayList<>();
-    private final LastMessage lastMessage = new LastMessage();
     private String model;
     private Map<String, Object> context = Map.of();
     private Map<String, Object> metadata = Map.of();
@@ -26,10 +25,6 @@ public class Chat {
 
     public List<ChatMessage> getMessages() {
         return messages;
-    }
-
-    public LastMessage getLastMessage() {
-        return lastMessage;
     }
 
     public void setModel(String model) {

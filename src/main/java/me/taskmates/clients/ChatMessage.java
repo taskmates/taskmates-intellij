@@ -17,6 +17,10 @@ public class ChatMessage {
 
     private List<ToolCall> toolCalls;
 
+    private String recipient = null;
+    private String recipientRole = null;
+    private List<Map<String, Object>> codeCells = new ArrayList<>();
+
     public ChatMessage(String role, String content) {
         this(role, content, (String) null);
     }
@@ -97,6 +101,32 @@ public class ChatMessage {
     public String getTextContent() {
         return (String) content;
     }
+
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public List<Map<String, Object>> getCodeCells() {
+        return codeCells;
+    }
+
+    public void setCodeCells(List<Map<String, Object>> codeCells) {
+        this.codeCells = codeCells;
+    }
+
+    public String getRecipientRole() {
+        return recipientRole;
+    }
+
+    public void setRecipientRole(String recipientRole) {
+        this.recipientRole = recipientRole;
+    }
+
 
     public boolean isUserPrompt() {
         return getRole().equals("user") && (getContent() == null || getTextContent().trim().isEmpty());
