@@ -40,7 +40,8 @@ for (String model : ["gpt-4o",
                      "gpt-3.5-turbo-16k",
                      "gpt-3.5-turbo",
                      "llama3-70b-8192",
-                     "codellama-7b-instruct.Q4_0.gguf"]) {
+                     "codellama-7b-instruct.Q4_0.gguf",
+                     "codeqwen"]) {
   unregisterAction(PerformCompletionAction.class.getCanonicalName() + ":" + model)
 }
 
@@ -50,6 +51,7 @@ unregisterAndRegisterAction(PerformCompletionAction.class.getCanonicalName() + "
 unregisterAndRegisterAction(PerformCompletionAction.class.getCanonicalName() + ":gpt-4", "control shift 3", new PerformCompletionAction())
 unregisterAndRegisterAction(PerformCompletionAction.class.getCanonicalName() + ":gpt-4-turbo", "control shift 4", new PerformCompletionAction())
 unregisterAndRegisterAction(PerformCompletionAction.class.getCanonicalName() + ":gpt-4o", "control shift 5", new PerformCompletionAction())
+unregisterAndRegisterAction(PerformCompletionAction.class.getCanonicalName() + ":codeqwen", "control shift 6", new PerformCompletionAction())
 unregisterAndRegisterAction(FileChatAction.class.getCanonicalName(), "control shift T", new FileChatAction())
 
 

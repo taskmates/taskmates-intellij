@@ -48,6 +48,12 @@
         text="Taskmates Perform Completion (gpt-4o)">
         <keyboard-shortcut keymap="$default" first-keystroke="shift meta 5"/>
       </action>
+      <action
+        id="me.taskmates.intellij.actions.PerformCompletionAction:codeqwen"
+        class="me.taskmates.intellij.actions.PerformCompletionAction"
+        text="Taskmates Perform Completion (codeqwen)">
+        <keyboard-shortcut keymap="$default" first-keystroke="shift meta 6"/>
+      </action>
     </group>
 
     <action id="me.taskmates.intellij.actions.session.NewChatAction"
