@@ -53,6 +53,7 @@ unregisterAndRegisterAction(PerformCompletionAction.class.getCanonicalName() + "
 unregisterAndRegisterAction(PerformCompletionAction.class.getCanonicalName() + ":gpt-4o", "control shift 5", new PerformCompletionAction())
 unregisterAndRegisterAction(PerformCompletionAction.class.getCanonicalName() + ":codeqwen", "control shift 6", new PerformCompletionAction())
 unregisterAndRegisterAction(FileChatAction.class.getCanonicalName(), "control shift T", new FileChatAction())
+unregisterAndRegisterAction(FileChatAction.class.getCanonicalName()  + ":claude-3-opus-20240229", "control shift Y", new FileChatAction("claude-3-opus-20240229"))
 
 
 if (!isIdeStartup) show("Loaded")
