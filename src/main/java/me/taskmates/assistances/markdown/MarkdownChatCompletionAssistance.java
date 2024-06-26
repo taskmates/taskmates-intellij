@@ -83,6 +83,7 @@ public class MarkdownChatCompletionAssistance {
         // Create CompletionPayload
         Map<String, Object> payload = Map.of(
             "type", "markdown_chat_completion",
+            "version", "0.1.0",
             "markdown_chat", markdownChat,
             "completion_context", completionContext,
             "completion_opts", completionOpts

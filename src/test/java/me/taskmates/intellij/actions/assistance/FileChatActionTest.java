@@ -12,7 +12,6 @@ import com.intellij.testFramework.LightProjectDescriptor;
 import com.intellij.testFramework.TestDataPath;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 import com.intellij.util.ui.UIUtil;
-import me.taskmates.intellij.actions.assistance.FileChatAction;
 import me.taskmates.lib.utils.ThreadUtils;
 import me.taskmates.runners.ProgressFeedback;
 import org.jetbrains.annotations.NotNull;
