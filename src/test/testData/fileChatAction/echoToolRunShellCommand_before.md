@@ -1,6 +1,6 @@
 Hey @shell how much is 1 + 1?
 
-**assistant**
+**assistant>**
 
 Hey @shell how much is 1 + 1?
 

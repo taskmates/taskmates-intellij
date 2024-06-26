@@ -1,6 +1,6 @@
 print(1 + 1)
 
-**assistant**
+**assistant>**
 
 print(1 + 1)
 

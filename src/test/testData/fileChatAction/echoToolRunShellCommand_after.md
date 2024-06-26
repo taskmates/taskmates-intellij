@@ -1,6 +1,6 @@
 Hey @shell how much is 1 + 1?
 
-**assistant**
+**assistant>**
 
 Hey @shell how much is 1 + 1?
 
@@ -17,4 +17,4 @@ Exit Code: 0
 </pre>
 -[x] Done
 
-**assistant** 
+**assistant>**

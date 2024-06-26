@@ -5,7 +5,7 @@ tools:
 
 Echo Hello World!
 
-**assistant**
+**assistant>**
 
 ###### Steps
 

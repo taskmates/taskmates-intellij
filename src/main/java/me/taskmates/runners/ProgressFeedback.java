@@ -62,9 +62,9 @@ public class ProgressFeedback {
         ChatCompletionEditorCompletion completion = new ChatCompletionEditorCompletion(project, chatFile);
         LOG.error(throwable);
         String errorMessage = throwable.getMessage() + "\n\nCheck Logs for more details\n\n";
-        completion.append("**error:** " + errorMessage);
+        completion.append("**error:>** " + errorMessage);
 
-        // completion.append("**error:** " + throwable.getMessage() + "\n\n<pre style=\"display: none\">\n" + sw + "\n</pre>\n");
+        // completion.append("**error:>** " + throwable.getMessage() + "\n\n<pre style=\"display: none\">\n" + sw + "\n</pre>\n");
         // ApplicationManager.getApplication().invokeLater(() -> {
         //     Messages.showErrorDialog("Error", errorMessage);
         //     //     HintManager.getInstance().showErrorHint(editor, throwable.getClass().getName() + "\n" + throwable.getMessage());
