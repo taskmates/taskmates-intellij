@@ -17,20 +17,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class MarkdownChatCompletionAssistance {
     private TaskmatesCompletionRequest currentRequest;
-    private int interruptCount = 0;
 
-    public void interruptOrKill() {
-        if (currentRequest == null) {
-            return;
-        }
-
-        interruptCount++;
-
-        if (interruptCount == 1) {
-            currentRequest.interrupt();
-        } else {
-            currentRequest.kill();
-        }
+    public void interrupt() {
+        currentRequest.interrupt();
     }
 
     // Example payload:

@@ -70,7 +70,7 @@ public class MarkdownCompletionAssistance {
 
             MarkdownChatCompletionAssistance completionAssistance = new MarkdownChatCompletionAssistance();
 
-            escBinding.bindEsc(project, completionAssistance::interruptOrKill);
+            escBinding.bindEsc(project, completionAssistance::interrupt);
 
             indicator.setText("Taskmates Assistance");
 
