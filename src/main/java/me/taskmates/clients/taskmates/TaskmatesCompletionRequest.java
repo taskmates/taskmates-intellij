@@ -4,6 +4,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import me.taskmates.clients.Signals;
 import me.taskmates.lib.utils.JsonUtils;
 import me.taskmates.lib.utils.WebSocketUtils;
+import me.taskmates.intellij.config.TaskmatesConfig;
 import org.asynchttpclient.AsyncHttpClient;
 import org.atmosphere.wasync.*;
 
@@ -21,7 +22,12 @@ public class TaskmatesCompletionRequest {
     protected Socket socket;
 
     public TaskmatesCompletionRequest(Map<String, Object> payload, Signals signals) {
-        this.wsUrl = "ws://localhost:5000" + Endpoint.TASKMATES_COMPLETIONS.getPath();
+        TaskmatesConfig config = TaskmatesConfig.getInstance();
+        String serverUrl = config.serverUrl;
+        if (!serverUrl.startsWith("ws://") && !serverUrl.startsWith("wss://")) {
+            serverUrl = "ws://" + serverUrl;
+        }
+        this.wsUrl = serverUrl + Endpoint.TASKMATES_COMPLETIONS.getPath();
         this.payload = payload;
         this.signals = signals;
     }

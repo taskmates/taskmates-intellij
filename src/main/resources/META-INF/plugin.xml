@@ -66,4 +66,9 @@
             text="Taskmates Prune Chats">
     </action>
   </actions>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationConfigurable displayName="Taskmates" instance="me.taskmates.intellij.config.TaskmatesConfigurable"/>
+    <applicationService serviceImplementation="me.taskmates.intellij.config.TaskmatesConfig"/>
+  </extensions>
 </idea-plugin>

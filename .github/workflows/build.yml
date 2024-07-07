@@ -39,9 +39,9 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.TASKMATES_GITHUB_TOKEN }}
         ports:
-          - 5000:5000
+          - 55000:55000
         options: >-
-          --health-cmd "curl -s -o /dev/null -w '%{http_code}' http://localhost:5000/health"
+          --health-cmd "curl -s -o /dev/null -w '%{http_code}' http://localhost:55000/health"
     steps:
 
       # Free GitHub Actions Environment Disk Space
