@@ -41,7 +41,7 @@ jobs:
         ports:
           - 55000:55000
         options: >-
-          --health-cmd "curl -s -o /dev/null -w '%{http_code}' http://localhost:55000/health"
+          --health-cmd "curl -s -o /dev/null -w '%{http_code}' http://localhost:55000/health/"
     steps:
 
       # Free GitHub Actions Environment Disk Space
