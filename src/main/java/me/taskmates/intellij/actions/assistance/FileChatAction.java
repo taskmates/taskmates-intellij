@@ -27,7 +27,7 @@ public class FileChatAction extends AnAction implements DumbAware {
     private final String model;
 
     public FileChatAction() {
-        this("claude-3-5-sonnet-20240620");
+        this("default");
     }
 
     public FileChatAction(String model) {

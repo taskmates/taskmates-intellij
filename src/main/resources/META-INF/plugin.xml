@@ -13,7 +13,7 @@
       <group id="me.taskmates.intellij.actions.assistance" text="Taskmates Completion" popup="true">
         <action id="me.taskmates.intellij.actions.assistance.FileChatAction"
                 class="me.taskmates.intellij.actions.assistance.FileChatAction"
-                text="Taskmates Perform Completion">
+                text="Taskmates Perform Completion (default)">
           <keyboard-shortcut keymap="$default" first-keystroke="shift meta T"/>
         </action>
 
