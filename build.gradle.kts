@@ -4,6 +4,7 @@ import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     id("java") // Java support
+    groovy // Groovy support
     alias(libs.plugins.kotlin) // Kotlin support
     alias(libs.plugins.intelliJPlatform) // IntelliJ Platform Gradle Plugin
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
@@ -52,15 +53,15 @@ dependencies {
 
     testImplementation("org.awaitility:awaitility:4.2.0")
 
-    testImplementation(files("live-plugins/lib/LivePlugin.jar"))
+    testImplementation(files("live-plugins/lib/live-plugin.jar"))
     testImplementation("org.codehaus.groovy:groovy:3.0.13")
 
 
     // Mockito for mocking in tests
-    testImplementation("org.mockito:mockito-core:5.7.0")
+//    testImplementation("org.mockito:mockito-core:5.7.0")
 
     // If you want to use Mockito with JUnit Jupiter (JUnit 5), you can also add the Mockito JUnit Jupiter support
-    testImplementation("org.mockito:mockito-junit-jupiter:5.7.0")
+//    testImplementation("org.mockito:mockito-junit-jupiter:5.7.0")
 
     testImplementation(libs.junit)
 
@@ -129,8 +130,7 @@ intellijPlatform {
         // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-        channels = providers.gradleProperty("pluginVersion")
-            .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
+        channels = providers.gradleProperty("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 
     pluginVerification {
@@ -185,27 +185,34 @@ intellijPlatformTesting {
                 robotServerPlugin()
             }
         }
-
-        sourceSets {
-            test {
-                java {
-                    srcDirs("src/test/java")
-                }
-                // Instead of using 'groovy {}', add Groovy source directory to 'java {}'
-                java.srcDirs("live-plugins/groovy/.live-plugins")
-            }
-        }
-
-        tasks.test {
-            doFirst {
-                // Exclude specific files
-                exclude("**/classpath.index")
-            }
-            classpath = sourceSets["test"].runtimeClasspath
-        }
     }
 }
 
+sourceSets {
+    getByName("main") {
+        java {
+            setSrcDirs(listOf("src/main/java"))
+        }
+    }
+
+    getByName("test") {
+        groovy {
+            srcDirs(listOf("src/test/java", "live-plugins/groovy/.live-plugins"))
+            exclude("**/classpath.index")
+        }
+
+        compileClasspath += sourceSets.main.get().output + sourceSets.main.get().compileClasspath
+        runtimeClasspath += sourceSets.main.get().output + sourceSets.main.get().runtimeClasspath
+    }
+}
+
+tasks.test {
+    doFirst {
+        // Exclude specific files
+        exclude("**/classpath.index")
+    }
+    classpath = sourceSets["test"].runtimeClasspath
+}
 
 gradle.taskGraph.whenReady {
     allTasks
