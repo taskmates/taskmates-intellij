@@ -48,6 +48,8 @@ dependencies {
 
 //    compileOnly("com.intellij:annotations:+")
 
+    testImplementation("org.opentest4j:opentest4j:1.3.0")
+
     testImplementation("org.slf4j:slf4j-simple:1.7.32")
     testImplementation("org.slf4j:slf4j-api:1.7.32")
 
@@ -55,13 +57,6 @@ dependencies {
 
     testImplementation(files("live-plugins/lib/live-plugin.jar"))
     testImplementation("org.codehaus.groovy:groovy:3.0.13")
-
-
-    // Mockito for mocking in tests
-//    testImplementation("org.mockito:mockito-core:5.7.0")
-
-    // If you want to use Mockito with JUnit Jupiter (JUnit 5), you can also add the Mockito JUnit Jupiter support
-//    testImplementation("org.mockito:mockito-junit-jupiter:5.7.0")
 
     testImplementation(libs.junit)
 
@@ -206,13 +201,13 @@ sourceSets {
     }
 }
 
-tasks.test {
-    doFirst {
-        // Exclude specific files
-        exclude("**/classpath.index")
-    }
-    classpath = sourceSets["test"].runtimeClasspath
-}
+//tasks.test {
+//    doFirst {
+//        // Exclude specific files
+//        exclude("**/classpath.index")
+//    }
+//    classpath = sourceSets["test"].runtimeClasspath
+//}
 
 gradle.taskGraph.whenReady {
     allTasks
