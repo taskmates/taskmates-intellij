@@ -1,5 +1,6 @@
 package me.taskmates.intellij.actions.session;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
@@ -16,6 +17,11 @@ import java.io.IOException;
 public class PruneChatsAction extends AnAction implements DumbAware {
 
     private static final Logger LOG = Logger.getInstance(PruneChatsAction.class);
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
