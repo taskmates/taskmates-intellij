@@ -1,8 +1,8 @@
 package me.taskmates.actions.session;
 
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
+import junit.framework.TestCase;
 import me.taskmates.runners.ProcessRunner;
-import org.junit.jupiter.api.Assertions;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,9 +20,9 @@ public class ProcessRunnerTest extends BasePlatformTestCase {
 
         int exitCode = ProcessRunner.runProcess(command, env, workingDir, stdoutQueue::add, stderrQueue::add);
 
-        Assertions.assertEquals(0, exitCode, "Process should exit with code 0");
-        Assertions.assertTrue(stderrQueue.isEmpty(), "Stderr should be empty");
-        Assertions.assertEquals("Hello, World!", stdoutQueue.poll(), "Stdout should contain the echoed message");
+        TestCase.assertEquals("Process should exit with code 0", 0, exitCode);
+        TestCase.assertTrue("Stderr should be empty", stderrQueue.isEmpty());
+        TestCase.assertEquals("Stdout should contain the echoed message", "Hello, World!", stdoutQueue.poll());
     }
 
 
@@ -35,9 +35,9 @@ public class ProcessRunnerTest extends BasePlatformTestCase {
 
         int exitCode = ProcessRunner.runProcess(command, env, workingDir, stdoutQueue::add, stderrQueue::add);
 
-        Assertions.assertEquals(0, exitCode, "Process should exit with code 0");
-        Assertions.assertTrue(stderrQueue.isEmpty(), "Stderr should be empty");
-        Assertions.assertEquals(workingDir, stdoutQueue.poll(), "Stdout should contain the current working directory");
+        TestCase.assertEquals("Process should exit with code 0", 0, exitCode);
+        TestCase.assertTrue("Stderr should be empty", stderrQueue.isEmpty());
+        TestCase.assertEquals("Stdout should contain the current working directory", workingDir, stdoutQueue.poll());
     }
 
 
@@ -50,9 +50,9 @@ public class ProcessRunnerTest extends BasePlatformTestCase {
 
         int exitCode = ProcessRunner.runProcess(command, env, workingDir, stdoutQueue::add, stderrQueue::add);
 
-        Assertions.assertEquals(0, exitCode, "Process should exit with code 0");
-        Assertions.assertTrue(stderrQueue.isEmpty(), "Stderr should be empty");
+        TestCase.assertEquals("Process should exit with code 0", 0, exitCode);
+        TestCase.assertTrue("Stderr should be empty", stderrQueue.isEmpty());
         boolean containsEnvVar = stdoutQueue.stream().anyMatch(line -> line.contains("TEST_ENV_VAR=12345"));
-        Assertions.assertTrue(containsEnvVar, "Stdout should contain the environment variable");
+        TestCase.assertTrue("Stdout should contain the environment variable", containsEnvVar);
     }
 }

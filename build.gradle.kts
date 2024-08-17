@@ -45,7 +45,7 @@ dependencies {
         exclude(group = "org.slf4j", module = "slf4j-api")
     }
 
-    compileOnly("com.intellij:annotations:+")
+//    compileOnly("com.intellij:annotations:+")
 
     testImplementation("org.slf4j:slf4j-simple:1.7.32")
     testImplementation("org.slf4j:slf4j-api:1.7.32")
@@ -55,8 +55,6 @@ dependencies {
     testImplementation(files("live-plugins/lib/LivePlugin.jar"))
     testImplementation("org.codehaus.groovy:groovy:3.0.13")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 
     // Mockito for mocking in tests
     testImplementation("org.mockito:mockito-core:5.7.0")
@@ -131,7 +129,8 @@ intellijPlatform {
         // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-        channels = providers.gradleProperty("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
+        channels = providers.gradleProperty("pluginVersion")
+            .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 
     pluginVerification {
@@ -205,4 +204,13 @@ intellijPlatformTesting {
             classpath = sourceSets["test"].runtimeClasspath
         }
     }
+}
+
+
+gradle.taskGraph.whenReady {
+    allTasks
+        .filter { it.hasProperty("duplicatesStrategy") } // Because it's some weird decorated wrapper that I can't cast.
+        .forEach {
+            it.setProperty("duplicatesStrategy", "EXCLUDE")
+        }
 }
