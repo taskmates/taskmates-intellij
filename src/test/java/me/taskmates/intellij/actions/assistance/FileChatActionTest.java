@@ -21,11 +21,9 @@ import java.util.concurrent.ExecutionException;
 
 @TestDataPath("$PROJECT_ROOT/src/test/testData/fileChatAction")
 public class FileChatActionTest extends BasePlatformTestCase {
-    public static final LightProjectDescriptor LIGHT_PROJECT_DESCRIPTOR = new LightProjectDescriptor();
-
     @Override
     protected LightProjectDescriptor getProjectDescriptor() {
-        return LIGHT_PROJECT_DESCRIPTOR;
+        return new LightProjectDescriptor();
     }
 
     @Override
@@ -39,6 +37,11 @@ public class FileChatActionTest extends BasePlatformTestCase {
         // Disable background indexing
         // IndexingDataKeys.SKIP_SLOW_INDEXING.put(getProject(), Boolean.TRUE);
         // Other setup code...
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
     }
 
     @Override
@@ -144,11 +147,12 @@ public class FileChatActionTest extends BasePlatformTestCase {
             try {
                 Editor editor = ThreadUtils.runInEdt(() -> FileEditorManager.getInstance(getProject()).getSelectedTextEditor()).get();
                 boolean isContentUpdated = !editor.getDocument().getText().equals(initialEditorContent);
-                boolean isCompletionFinished = editor.getDocument().getText().endsWith(">** ");
+                boolean isCompletionFinished = editor.getDocument().getText().endsWith("**user>** ");
+                boolean isCompletionErrored = editor.getDocument().getText().contains("**error>**");
                 boolean isCompletionInProgress = new ProgressFeedback(editor).isAICaretShowing().get();
                 long elapsedTime = System.currentTimeMillis() - startTime;
                 boolean hasTimeouted = elapsedTime >= timeoutMillis;
-                return hasTimeouted || (isContentUpdated && !isCompletionInProgress && isCompletionFinished);
+                return hasTimeouted || isCompletionErrored || (isContentUpdated && !isCompletionInProgress && isCompletionFinished);
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
