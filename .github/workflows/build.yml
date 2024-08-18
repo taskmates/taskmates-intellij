@@ -35,16 +35,6 @@ jobs:
       version: ${{ steps.properties.outputs.version }}
       changelog: ${{ steps.properties.outputs.changelog }}
       pluginVerifierHomeDir: ${{ steps.properties.outputs.pluginVerifierHomeDir }}
-    services:
-      taskmates:
-        image: ghcr.io/taskmates/taskmates:main
-        credentials:
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.TASKMATES_GITHUB_TOKEN }}
-        ports:
-          - 55000:55000
-        options: >-
-          --health-cmd "curl -s -o /dev/null -w '%{http_code}' http://localhost:55000/health/"
     steps:
 
       # Check out the current repository
@@ -111,6 +101,17 @@ jobs:
     name: Test
     needs: [ build ]
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      taskmates:
+        image: ghcr.io/taskmates/taskmates:main
+        credentials:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.TASKMATES_GITHUB_TOKEN }}
+        ports:
+          - 55000:55000
+        options: >-
+          --health-cmd "curl -s -o /dev/null -w '%{http_code}' http://localhost:55000/health/"
     steps:
 
       # Check out the current repository
@@ -132,7 +133,7 @@ jobs:
 
       # Run tests
       - name: Run Tests
-        run: ./gradlew check --info
+        run: ./gradlew check
 
       # Collect Tests Result of failed tests
       - name: Collect Tests Result
