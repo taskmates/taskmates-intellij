@@ -58,24 +58,24 @@ public class MarkdownChatCompletionAssistance {
         String model = (String) context.get("model");
 
         // Create CompletionContext
-        Map<String, Object> completionContext = Map.of(
+        Map<String, Object> runnerEnvironment = Map.of(
             "request_id", UUID.randomUUID().toString(),
             "cwd", cwd,
             "markdown_path", markdownPath
         );
 
         // Create CompletionOpts with defaults
-        Map<String, Object> completionOpts = Map.of(
+        Map<String, Object> runOpts = Map.of(
             "model", model
         );
 
         // Create CompletionPayload
         Map<String, Object> payload = Map.of(
             "type", "markdown_chat_completion",
-            "version", "0.1.0",
+            "version", "0.2.0",
             "markdown_chat", markdownChat,
-            "completion_context", completionContext,
-            "completion_opts", completionOpts
+            "runner_environment", runnerEnvironment,
+            "run_opts", runOpts
         );
 
         String jsonPayload = JsonUtils.dump(payload);
