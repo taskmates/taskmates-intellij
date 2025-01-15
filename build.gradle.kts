@@ -37,7 +37,7 @@ dependencies {
 
     implementation("com.google.guava:guava:32.1.3-jre")
 
-    implementation("org.commonmark:commonmark:0.20.0")
+    implementation("org.commonmark:commonmark:0.24.0")
 
     implementation("org.atmosphere:wasync:[3.0.2, 4.0.0)") {
         exclude(group = "org.slf4j", module = "slf4j-api")
