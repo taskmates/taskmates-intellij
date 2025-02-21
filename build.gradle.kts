@@ -53,7 +53,7 @@ dependencies {
     testImplementation("org.slf4j:slf4j-simple:1.7.32")
     testImplementation("org.slf4j:slf4j-api:1.7.32")
 
-    testImplementation("org.awaitility:awaitility:4.2.0")
+    testImplementation("org.awaitility:awaitility:4.3.0")
 
     testImplementation(files("live-plugins/lib/live-plugin.jar"))
     testImplementation("org.codehaus.groovy:groovy:3.0.13")
