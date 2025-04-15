@@ -35,7 +35,7 @@ dependencies {
     implementation("com.google.inject:guice:7.0.0")
     implementation("org.apache.commons:commons-exec:1.3")
 
-    implementation("com.google.guava:guava:32.1.3-jre")
+    implementation("com.google.guava:guava:33.4.8-jre")
 
     implementation("org.commonmark:commonmark:0.20.0")
 
