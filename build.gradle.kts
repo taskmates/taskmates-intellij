@@ -56,7 +56,7 @@ dependencies {
     testImplementation("org.awaitility:awaitility:4.2.0")
 
     testImplementation(files("live-plugins/lib/live-plugin.jar"))
-    testImplementation("org.codehaus.groovy:groovy:3.0.13")
+    testImplementation("org.codehaus.groovy:groovy:4.0.26")
 
     testImplementation(libs.junit)
     testImplementation(libs.opentest4j)
