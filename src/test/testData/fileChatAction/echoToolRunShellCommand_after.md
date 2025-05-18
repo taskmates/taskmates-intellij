@@ -1,6 +1,6 @@
 Hey @shell how much is 1 + 1?
 
-**assistant>**
+**shell>**
 
 Hey @shell how much is 1 + 1?
 
@@ -17,4 +17,15 @@ Exit Code: 0
 </pre>
 -[x] Done
 
-**assistant>** 
+**shell>** 
+> 
+> <pre class='output' style='display:none'>
+> 2
+> 
+> Exit Code: 0
+> </pre>
+> -[x] Done
+> 
+> 
+
+**user>** 
