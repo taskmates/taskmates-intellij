@@ -46,6 +46,9 @@ public class PerformCompletionAction extends AnAction implements DumbAware {
         if (dialog.showAndGet()) {
             String selectedModel = dialog.getSelectedModel();
             if (selectedModel != null) {
+                // Save the selected model
+                TaskmatesConfig config = TaskmatesConfig.getInstance();
+                config.lastSelectedModel = selectedModel;
                 ContextInjector.createInjector(event).thenAccept((injector -> {
                     Project project = injector.getInstance(Project.class);
                     ProgressManager.getInstance().run(new Task.Backgroundable(project, "Performing Completion", true) {
@@ -84,6 +87,13 @@ public class PerformCompletionAction extends AnAction implements DumbAware {
             JPanel panel = new JPanel(new BorderLayout());
             models = fetchModels();
             modelComboBox = new JComboBox<>(models.toArray(new String[0]));
+            
+            // Restore the last selected model if it exists
+            TaskmatesConfig config = TaskmatesConfig.getInstance();
+            if (config.lastSelectedModel != null && models.contains(config.lastSelectedModel)) {
+                modelComboBox.setSelectedItem(config.lastSelectedModel);
+            }
+            
             panel.add(modelComboBox, BorderLayout.CENTER);
             // Request focus for the JComboBox
             SwingUtilities.invokeLater(() -> modelComboBox.requestFocusInWindow());

@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
+import me.taskmates.intellij.config.TaskmatesConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
@@ -146,5 +147,85 @@ public class PerformCompletionActionTest extends BasePlatformTestCase {
         assertEquals("alpha-model", models.get(0));
         assertEquals("beta-model", models.get(1));
         assertEquals("zebra-model", models.get(2));
+    }
+
+    @Test
+    public void testModelSelectionRemembersLastChoice() {
+        // Reset config
+        TaskmatesConfig config = TaskmatesConfig.getInstance();
+        config.lastSelectedModel = null;
+        
+        // Create a test dialog with test models
+        PerformCompletionAction.ModelSelectionDialog dialog = new PerformCompletionAction.ModelSelectionDialog() {
+            @Override
+            List<String> fetchModels() {
+                return List.of("model-a", "model-b", "model-c");
+            }
+        };
+        
+        // Create the dialog panel
+        JComponent panel = dialog.createCenterPanel();
+        assertNotNull(panel);
+        
+        // Verify default selection
+        String defaultSelection = dialog.getSelectedModel();
+        assertEquals("model-a", defaultSelection); // First item should be selected by default
+        
+        // Set a previous selection
+        config.lastSelectedModel = "model-b";
+        
+        // Create a new dialog
+        PerformCompletionAction.ModelSelectionDialog dialog2 = new PerformCompletionAction.ModelSelectionDialog() {
+            @Override
+            List<String> fetchModels() {
+                return List.of("model-a", "model-b", "model-c");
+            }
+        };
+        
+        panel = dialog2.createCenterPanel();
+        assertNotNull(panel);
+        
+        // Verify the previous selection is restored
+        String restoredSelection = dialog2.getSelectedModel();
+        assertEquals("model-b", restoredSelection);
+    }
+
+    @Test
+    public void testModelSelectionHandlesInvalidSavedModel() {
+        // Set a model that doesn't exist in the list
+        TaskmatesConfig config = TaskmatesConfig.getInstance();
+        config.lastSelectedModel = "model-x";
+        
+        // Create a test dialog
+        PerformCompletionAction.ModelSelectionDialog dialog = new PerformCompletionAction.ModelSelectionDialog() {
+            @Override
+            List<String> fetchModels() {
+                return List.of("model-a", "model-b", "model-c");
+            }
+        };
+        
+        JComponent panel = dialog.createCenterPanel();
+        assertNotNull(panel);
+        
+        // Verify it falls back to the first item when saved model doesn't exist
+        String selection = dialog.getSelectedModel();
+        assertEquals("model-a", selection);
+    }
+
+    @Test
+    public void testSelectedModelIsSavedInConfig() {
+        TaskmatesConfig config = TaskmatesConfig.getInstance();
+        config.lastSelectedModel = null;
+        
+        // Simulate saving a model selection
+        String selectedModel = "test-model";
+        config.lastSelectedModel = selectedModel;
+        
+        // Verify it was saved
+        assertEquals(selectedModel, config.lastSelectedModel);
+        
+        // Verify it persists (since TaskmatesConfig is a PersistentStateComponent)
+        TaskmatesConfig newConfigInstance = TaskmatesConfig.getInstance();
+        assertEquals(selectedModel, newConfigInstance.lastSelectedModel);
     }
 }

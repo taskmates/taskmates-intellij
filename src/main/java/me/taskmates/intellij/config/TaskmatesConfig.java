@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 public class TaskmatesConfig implements PersistentStateComponent<TaskmatesConfig> {
     public String serverHost = "127.0.0.1:55000";
     public boolean useSSL = false;
+    public String lastSelectedModel = null;
 
     public static TaskmatesConfig getInstance() {
         return ServiceManager.getService(TaskmatesConfig.class);
