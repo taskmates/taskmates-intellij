@@ -27,7 +27,7 @@ public class FileChatAction extends AnAction implements DumbAware {
     private final String model;
 
     public FileChatAction() {
-        this("default-anthropic");
+        this("default");
     }
 
     public FileChatAction(String model) {
