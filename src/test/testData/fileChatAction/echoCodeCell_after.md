@@ -12,6 +12,17 @@ print(1 + 1)
 
 <pre>
 2
+
 </pre>
 
 **assistant>** 
+> ###### Cell Output: stdout [cell_0]
+> 
+> <pre>
+> 2
+> 
+> </pre>
+> 
+> 
+
+**user>** 

@@ -7,6 +7,7 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.progress.util.ProgressIndicatorUtils;
 import com.intellij.openapi.util.ThrowableComputable;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.LightProjectDescriptor;
 import com.intellij.testFramework.TestDataPath;
@@ -16,6 +17,7 @@ import me.taskmates.lib.utils.ThreadUtils;
 import me.taskmates.runners.ProgressFeedback;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -63,7 +65,7 @@ public class FileChatActionTest extends BasePlatformTestCase {
         openAndPerformCompletion(file, actionId);
 
         // Check the result against the expected after file
-        myFixture.checkResultByFile("echo_after.md");
+        checkResultWithDiff("echo_after.md", "testEcho");
 
         // Unregister the action
         actionManager.unregisterAction(actionId);
@@ -83,7 +85,7 @@ public class FileChatActionTest extends BasePlatformTestCase {
         openAndPerformCompletion(file, actionId);
 
         // Check the result against the expected after file
-        myFixture.checkResultByFile("echoToolRunShellCommand_after.md");
+        checkResultWithDiff("echoToolRunShellCommand_after.md", "testEchoToolRunShellCommand");
 
         // Unregister the action
         actionManager.unregisterAction(actionId);
@@ -103,7 +105,7 @@ public class FileChatActionTest extends BasePlatformTestCase {
         openAndPerformCompletion(file, actionId);
 
         // Check the result against the expected after file
-        myFixture.checkResultByFile("echoToolPythonFunction_after.md");
+        checkResultWithDiff("echoToolPythonFunction_after.md", "testEchoToolPythonFunction");
 
         // Unregister the action
         actionManager.unregisterAction(actionId);
@@ -124,7 +126,7 @@ public class FileChatActionTest extends BasePlatformTestCase {
         openAndPerformCompletion(file, actionId);
 
         // Check the result against the expected after file
-        myFixture.checkResultByFile("echoCodeCell_after.md");
+        checkResultWithDiff("echoCodeCell_after.md", "testEchoCodeCell");
 
         // Unregister the action
         actionManager.unregisterAction(actionId);
@@ -162,6 +164,52 @@ public class FileChatActionTest extends BasePlatformTestCase {
         ProgressIndicatorUtils.awaitWithCheckCanceled(condition);
     }
 
+    private void checkResultWithDiff(String expectedFileName, String testName) {
+        try {
+            myFixture.checkResultByFile(expectedFileName);
+        } catch (AssertionError e) {
+            // Log the actual content when test fails
+            String actualContent = myFixture.getEditor().getDocument().getText();
+            System.err.println("=== TEST FAILED: " + testName + " ===");
+            System.err.println("=== ACTUAL OUTPUT ===");
+            System.err.println(actualContent);
+            System.err.println("=== END ACTUAL OUTPUT ===");
+            
+            // Try to read expected content
+            try {
+                VirtualFile expectedFile = myFixture.findFileInTempDir("../" + expectedFileName);
+                if (expectedFile == null) {
+                    // Try alternative path
+                    expectedFile = LocalFileSystem.getInstance().findFileByPath(
+                        getTestDataPath() + "/" + expectedFileName
+                    );
+                }
+                if (expectedFile != null) {
+                    String expectedContent = new String(expectedFile.contentsToByteArray(), StandardCharsets.UTF_8);
+                    System.err.println("=== EXPECTED OUTPUT ===");
+                    System.err.println(expectedContent);
+                    System.err.println("=== END EXPECTED OUTPUT ===");
+                    
+                    // Show character-by-character diff for the end of the file
+                    System.err.println("=== DETAILED DIFF (last 100 chars) ===");
+                    int actualLen = actualContent.length();
+                    int expectedLen = expectedContent.length();
+                    int startPos = Math.max(0, Math.min(actualLen, expectedLen) - 100);
+                    
+                    System.err.println("Actual length: " + actualLen + ", Expected length: " + expectedLen);
+                    System.err.println("Actual ends with: " + actualContent.substring(Math.max(0, actualLen - 50))
+                        .replace("\n", "\\n").replace("\r", "\\r"));
+                    System.err.println("Expected ends with: " + expectedContent.substring(Math.max(0, expectedLen - 50))
+                        .replace("\n", "\\n").replace("\r", "\\r"));
+                }
+            } catch (Exception ex) {
+                System.err.println("Could not read expected file: " + ex.getMessage());
+            }
+            
+            // Re-throw the original assertion error
+            throw e;
+        }
+    }
     public static @NotNull ActionManager registerAction(String actionId, AnAction action) {
         ActionManager actionManager = ActionManager.getInstance();
         actionManager.registerAction(actionId, action);
