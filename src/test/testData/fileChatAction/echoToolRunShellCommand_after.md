@@ -1,8 +1,10 @@
-Hey @shell how much is 1 + 1?
+---
+model: quote
+---
 
-**shell>**
+How much is 1 + 1?
 
-Hey @shell how much is 1 + 1?
+**assistant>**
 
 ###### Steps
 
@@ -17,7 +19,7 @@ Exit Code: 0
 </pre>
 -[x] Done
 
-**shell>** 
+**assistant>** 
 > 
 > <pre class='output' style='display:none'>
 > 2

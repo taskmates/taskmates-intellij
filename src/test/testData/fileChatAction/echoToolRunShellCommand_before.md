@@ -1,8 +1,10 @@
-Hey @shell how much is 1 + 1?
+---
+model: quote
+---
 
-**shell>**
+How much is 1 + 1?
 
-Hey @shell how much is 1 + 1?
+**assistant>**
 
 ###### Steps
 
