@@ -23,11 +23,7 @@ public class TaskmatesCompletionRequest {
 
     public TaskmatesCompletionRequest(Map<String, Object> payload, Signals signals) {
         TaskmatesConfig config = TaskmatesConfig.getInstance();
-        String serverUrl = config.serverUrl;
-        if (!serverUrl.startsWith("ws://") && !serverUrl.startsWith("wss://")) {
-            serverUrl = "ws://" + serverUrl;
-        }
-        this.wsUrl = serverUrl + Endpoint.TASKMATES_COMPLETIONS.getPath();
+        this.wsUrl = config.getWebSocketUrl() + Endpoint.TASKMATES_COMPLETIONS.getPath();
         this.payload = payload;
         this.signals = signals;
     }

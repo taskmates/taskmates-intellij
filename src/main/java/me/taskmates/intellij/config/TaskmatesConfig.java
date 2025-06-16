@@ -13,10 +13,19 @@ import org.jetbrains.annotations.Nullable;
     storages = {@Storage("TaskmatesConfig.xml")}
 )
 public class TaskmatesConfig implements PersistentStateComponent<TaskmatesConfig> {
-    public String serverUrl = "ws://localhost:55000";
+    public String serverHost = "127.0.0.1:55000";
+    public boolean useSSL = false;
 
     public static TaskmatesConfig getInstance() {
         return ServiceManager.getService(TaskmatesConfig.class);
+    }
+
+    public String getHttpUrl() {
+        return (useSSL ? "https://" : "http://") + serverHost;
+    }
+
+    public String getWebSocketUrl() {
+        return (useSSL ? "wss://" : "ws://") + serverHost;
     }
 
     @Nullable

@@ -11,7 +11,8 @@ import java.awt.*;
 public class TaskmatesConfigurable implements Configurable {
     private JPanel myMainPanel;
     // private JTextField apiKeyField;
-    private JTextField serverUrlField;
+    private JTextField serverHostField;
+    private JCheckBox useSSLCheckBox;
     private TaskmatesConfig taskmatesConfig;
 
     public TaskmatesConfigurable() {
@@ -28,7 +29,8 @@ public class TaskmatesConfigurable implements Configurable {
     @Override
     public JComponent createComponent() {
         myMainPanel = new JPanel(new GridBagLayout());
-        serverUrlField = new JTextField(30);
+        serverHostField = new JTextField(30);
+        useSSLCheckBox = new JCheckBox("Use SSL");
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
@@ -38,12 +40,15 @@ public class TaskmatesConfigurable implements Configurable {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        myMainPanel.add(new JLabel("Server URL:"), gbc);
+        myMainPanel.add(new JLabel("Server Host:"), gbc);
 
         gbc.gridy = 1;
-        myMainPanel.add(serverUrlField, gbc);
+        myMainPanel.add(serverHostField, gbc);
 
         gbc.gridy = 2;
+        myMainPanel.add(useSSLCheckBox, gbc);
+
+        gbc.gridy = 3;
         gbc.weighty = 1.0;
         myMainPanel.add(Box.createVerticalGlue(), gbc);
 
@@ -52,16 +57,19 @@ public class TaskmatesConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        return !serverUrlField.getText().equals(taskmatesConfig.serverUrl);
+        return !serverHostField.getText().equals(taskmatesConfig.serverHost) ||
+               useSSLCheckBox.isSelected() != taskmatesConfig.useSSL;
     }
 
     @Override
     public void apply() {
-        taskmatesConfig.serverUrl = serverUrlField.getText();
+        taskmatesConfig.serverHost = serverHostField.getText();
+        taskmatesConfig.useSSL = useSSLCheckBox.isSelected();
     }
 
     @Override
     public void reset() {
-        serverUrlField.setText(taskmatesConfig.serverUrl);
+        serverHostField.setText(taskmatesConfig.serverHost);
+        useSSLCheckBox.setSelected(taskmatesConfig.useSSL);
     }
 }
